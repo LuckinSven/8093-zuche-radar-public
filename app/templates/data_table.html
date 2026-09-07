@@ -1,0 +1,42 @@
+{% extends "base.html" %}{% block page %}data{% endblock %}{% block body_attrs %}class="data-page-wide"{% endblock %}{% block page_styles %}<link rel="stylesheet" href="/static/citywide.css">{% endblock %}{% block content %}
+<section class="page-title data-title"><p class="eyebrow">QUOTE DETAILS</p><h1>报价明细，<em>摊开核对。</em></h1><p>这是高级明细页，每一行代表一个车型在一个神州网点的报价。</p></section>
+<section class="panel data-panel">
+  <form id="data-filter" class="data-toolbar">
+    <label class="data-scan-field">历史扫描<select name="scan_id" id="data-scan"><option value="">正在读取扫描记录…</option></select></label>
+    <label>网点<select name="department_id" id="data-department"><option value="">全部网点</option></select></label>
+    <label>搜索<input name="q" placeholder="车型、网点、地址或 ID"></label>
+    <label>能源<select name="energy_type"><option value="">全部</option><option value="新能源">新能源</option></select></label>
+    <label>车身<select name="body_style"><option value="">全部</option><option>SUV</option><option>三厢</option><option>两厢</option><option>MPV</option></select></label>
+    <label>最高价格<input name="max_price" type="number" min="0" placeholder="不限"></label>
+    <label>可租状态<select name="bookable"><option value="">全部</option><option value="true">可租</option><option value="false">暂不可租</option></select></label>
+    <label>每页<select name="page_size"><option>25</option><option selected>50</option><option>100</option></select></label>
+    <button class="primary" type="submit"><span>应用筛选</span><b>↵</b></button>
+    <details class="data-advanced"><summary>更多筛选</summary><div>
+      <label>最低价格<input name="min_price" type="number" min="0" placeholder="不限"></label>
+      <label>最大距离 km<input name="max_distance_km" type="number" min="0" step=".1" placeholder="不限"></label>
+      <label>座位数<input name="seat_count" type="number" min="1" placeholder="不限"></label>
+      <label>个人状态<select name="personal_state"><option value="">全部</option><option value="UNTRIED">未租过</option><option value="WANT_TO_RENT">想租</option><option value="RENTED">已租</option><option value="LIKED">喜欢</option><option value="NOT_CONSIDERING">不考虑</option></select></label>
+      <label>变化<select name="change_type"><option value="">全部</option><option value="FIRST_SEEN">首次出现</option><option value="REAPPEARED">重新出现</option><option value="PRICE_CHANGED">价格变化</option></select></label>
+    </div></details>
+    <a class="text-button data-export" id="data-export" href="/api/data/export.csv">导出 CSV（Excel 可打开）</a>
+  </form>
+  <div class="data-rental-period"><span>当前数据的取还车时间</span><b id="data-rental-period">正在读取…</b><small id="data-rental-location">—</small></div>
+  <div class="data-summary"><b id="data-total">—</b><span id="data-status" role="status" aria-live="polite">正在读取数据…</span><small>价格均为神州基础/列表价，非最终结算价</small></div>
+  <div class="data-sheet" tabindex="0" aria-label="扫描报价数据表，可横向滚动">
+    <table id="data-table">
+      <thead><tr>
+        <th><button type="button" data-sort="started_at">扫描时间</button></th><th>扫描地点</th>
+        <th><button type="button" data-sort="model_name">车型</button></th><th>车型组</th><th>能源</th><th>车身/座位</th>
+        <th><button type="button" data-sort="department_name">网点</button></th><th>地址</th>
+        <th><button type="button" data-sort="shenzhou_distance_km">神州距离</button></th>
+        <th><button type="button" data-sort="coordinate_distance_km">坐标复算</button></th>
+        <th><button type="button" data-sort="daily_price">日均价</button></th>
+        <th><button type="button" data-sort="package_price">套餐价</button></th>
+        <th><button type="button" data-sort="bookable">可租</button></th>
+      </tr></thead>
+      <tbody id="data-table-body"><tr><td colspan="13" class="loading">正在读取数据…</td></tr></tbody>
+    </table>
+  </div>
+  <div class="data-pages"><button class="text-button" id="data-prev" type="button">上一页</button><span id="data-page-label">第 1 页</span><button class="text-button" id="data-next" type="button">下一页</button></div>
+</section>
+{% endblock %}

@@ -1,0 +1,7 @@
+:root{--ink:#17302b;--muted:#66756f;--paper:#f4f5ef;--card:#fffefa;--line:#dbe2dc;--lime:#cfe99a;--orange:#e7794f;--shadow:0 12px 34px rgba(35,64,55,.08)}
+body{background:linear-gradient(145deg,#faf7ef 0,#f1f5ef 55%,#eef3f1 100%);background-attachment:fixed}
+.panel,.vehicle-card{border-color:rgba(203,215,207,.85);box-shadow:var(--shadow)}
+.topbar nav,.scan-feedback,.filter-grid{background:rgba(255,255,252,.9)}
+input,select,textarea{background:#fffefa;border-color:#d8e0da}
+.price,.data-summary b{color:var(--orange)}
+@supports (backdrop-filter: blur(6px)){.topbar nav,.scan-feedback,.citywide-scan-panel .section-heading,.panel>form.filter-grid{background:rgba(255,255,252,.78);backdrop-filter:blur(6px)}}

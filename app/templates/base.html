@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#17302b"><link rel="stylesheet" href="/static/app.css"><link rel="stylesheet" href="/static/theme-refresh.css">
+  {% block page_styles %}{% endblock %}
+  <title>{{ title }} · 神州车型雷达</title>
+</head>
+<body data-page="{% block page %}{% endblock %}" {% block body_attrs %}{% endblock %}>
+  <header class="topbar"><a class="brand" href="/"><span class="brand-mark">ZR</span><span>神州车型雷达<small>广州 · 个人车库观察站</small></span></a>
+    <nav aria-label="主导航"><a href="/">找车</a><a href="/cross-city-search">跨城找车</a><a href="/scan-runs">扫描记录</a><a href="/citywide">全城车型</a><a href="/library">车型库</a><a href="/bills">账单</a><a href="/settings/departments">网点</a><a href="/settings">设置</a></nav></header>
+  <main>{% block content %}{% endblock %}</main>
+  <footer><span>数据来自神州租车公开移动端列表</span><strong>所有价格均为基础/列表价格，非最终结算价</strong></footer>
+  <div id="toast" role="status" aria-live="polite"></div><script src="/static/app.js"></script>{% block page_scripts %}{% endblock %}
+</body></html>

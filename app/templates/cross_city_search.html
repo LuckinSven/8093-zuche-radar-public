@@ -1,0 +1,40 @@
+{% extends "base.html" %}{% block page %}cross-city-search{% endblock %}
+{% block page_styles %}<link rel="stylesheet" href="/static/cross_city_search.css">{% endblock %}
+{% block content %}
+<section class="page-title cross-city-title">
+  <p class="eyebrow">CROSS-CITY MODEL SEARCH</p>
+  <h1>跨城取车，<em>比较异地方案。</em></h1>
+  <p>按精确车型、准确租期和取车城市遍历神州网点，再把交通费用纳入比较。</p>
+</section>
+
+<section class="panel cross-city-config">
+  <div class="section-heading"><div><span>01</span><h2>跨城找车配置</h2></div><p>手动触发 · 单任务最多 2000 次请求</p></div>
+  <form id="cross-city-form">
+    <div class="cross-city-fixed-grid">
+      <label><small>神州精确车型编号</small><input name="zuche_model_id" type="number" min="1" placeholder="请选择车型编号" required><p>可从车型库详情中查看；同名细节车型以编号区分。</p></label>
+      <label><small>计划还车网点</small><input name="return_location_name" type="text" placeholder="请填写计划还车网点" required><p>异地还车资格、具体网点和费用最终仍需在神州下单页确认。</p></label>
+    </div>
+    <fieldset class="cross-city-windows">
+      <legend>准确租期（每组严格 14 天）</legend>
+      <div class="cross-city-window"><label>方案一取车<input name="pickup_time" type="datetime-local" required></label><label>方案一还车<input name="return_time" type="datetime-local" required></label></div>
+      <div class="cross-city-window"><label>方案二取车<input name="pickup_time" type="datetime-local" required></label><label>方案二还车<input name="return_time" type="datetime-local" required></label></div>
+    </fieldset>
+    <div class="cross-city-heading"><div><b>取车城市与双人单程铁路预算</b><p>系统会先逐城同步神州网点。铁路费用是可修改的估算值，不会调用购票账号。</p></div><button id="cross-city-toggle" class="text-button" type="button">取消全选</button></div>
+    <div id="cross-city-city-list" class="cross-city-city-list" aria-live="polite"><div class="loading">正在读取神州开放城市…</div></div>
+    <button id="cross-city-submit" class="primary cross-city-submit" type="submit"><span>同步网点并启动完整扫描</span><b>→</b></button>
+  </form>
+  <div id="cross-city-sync-progress" class="scan-feedback" data-state="idle" role="status" aria-live="polite"><div><b>等待启动</b><p>启动后先显示逐城网点同步情况。</p></div></div>
+</section>
+
+<section class="panel cross-city-run-panel">
+  <div class="section-heading"><div><span>02</span><h2>任务进度</h2></div><button id="cross-city-refresh" class="text-button" type="button">刷新</button></div>
+  <div id="cross-city-run-progress" aria-live="polite"><div class="empty-state"><b>暂无专项任务</b><p>完成上面的配置后启动扫描。</p></div></div>
+</section>
+
+<section class="panel cross-city-results-panel">
+  <div class="section-heading"><div><span>03</span><h2>城市成本比较</h2></div><p>价格为神州列表字段形成的估算</p></div>
+  <div class="result-trust-note"><b>结果口径</b><p>“完整未找到”仅在该城市所有网点和租期都成功查询后显示；失败或尚未执行统一显示“扫描不完整”。</p></div>
+  <div id="cross-city-results" class="cross-city-results" aria-live="polite"><div class="empty-state"><b>等待扫描结果</b></div></div>
+</section>
+{% endblock %}
+{% block page_scripts %}<script src="/static/cross_city_search.js"></script>{% endblock %}

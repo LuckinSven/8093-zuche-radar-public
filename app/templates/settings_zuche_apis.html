@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block page %}settings-zuche-apis{% endblock %}
+{% block content %}
+<section class="page-title settings-title">
+  <p class="eyebrow">SHENZHOU UPSTREAM LEDGER</p>
+  <h1>神州上游接口</h1>
+  <p>按证据可信度整理神州网关 URI，专门回答“神州返回什么、当前系统用了什么”。</p>
+</section>
+
+{% include "_settings_tabs.html" %}
+
+<section class="upstream-scope">
+  <div><b>台账边界</b><p>{{ catalog.scope }}。这不代表神州内部全部私有接口，也不主动探测账户、下单或支付能力。</p></div>
+  <div><b>版本说明</b><p>V1/V3 是 URI 自身版本。版本号不同不自动代表新旧替代关系，必须结合页面调用和实测结果判断。</p></div>
+</section>
+
+<section class="upstream-stats" aria-label="神州上游接口统计">
+  <article><span>已发现 URI</span><b>{{ catalog.count }}</b></article>
+  <article><span>已实际验证</span><b>{{ catalog.status_counts.get('verified', 0) }}</b></article>
+  <article><span>公开资源观察</span><b>{{ catalog.status_counts.get('observed', 0) }}</b></article>
+  <article><span>仅有线索</span><b>{{ catalog.status_counts.get('lead', 0) }}</b></article>
+</section>
+
+<section class="panel upstream-toolbar">
+  <label>搜索 URI 或用途<input id="upstream-search" type="search" placeholder="例如 chooseCar、城市、试驾"></label>
+  <label>可信状态<select id="upstream-status"><option value="">全部状态</option><option value="verified">已实际验证</option><option value="implemented">代码确认但未复测</option><option value="observed">公开前端资源观察</option><option value="lead">仅发现线索</option></select></label>
+  <label>业务类别<select id="upstream-category"><option value="">全部类别</option>{% for category in catalog.categories %}<option value="{{ category }}">{{ category }}</option>{% endfor %}</select></label>
+  <div><span>显示结果</span><b id="upstream-visible-count">{{ catalog.count }} / {{ catalog.count }}</b></div>
+</section>
+
+<section id="zuche-upstream-catalog" class="upstream-catalog" data-endpoint-count="{{ catalog.count }}">
+{% for item in catalog["items"] %}
+  <details class="panel upstream-item" data-status="{{ item.status }}" data-category="{{ item.category }}" data-search="{{ item.uri }} {{ item.purpose }} {{ item.category }}">
+    <summary><span class="upstream-version">{{ item.version | upper }}</span><code>{{ item.uri }}</code><span>{{ item.purpose }}</span><b class="upstream-status {{ item.status }}">{{ item.status_label }}</b></summary>
+    <div class="upstream-detail">
+      <dl><div><dt>业务类别</dt><dd>{{ item.category }}</dd></div><div><dt>访问判断</dt><dd>{{ item.auth_label }}</dd></div><div><dt>当前系统</dt><dd>{{ item.system_usage }}</dd></div><div><dt>最近验证</dt><dd>{{ item.last_verified_at or '尚未验证' }}</dd></div></dl>
+      <h3>证据</h3><p>{{ item.evidence }} <a href="{{ item.source_url }}" target="_blank" rel="noreferrer">{{ item.source }}</a></p>
+      <h3>网关调用</h3><code>{{ item.gateway }}</code>
+      <h3>请求字段</h3>{% if item.request_fields %}<div class="upstream-fields">{% for field in item.request_fields %}<code>{{ field }}</code>{% endfor %}</div>{% else %}<p>尚未取得可靠请求样本，不能仅凭 URI 猜测字段。</p>{% endif %}
+      <h3>返回字段</h3>{% if item.response_fields %}<div class="upstream-fields">{% for field in item.response_fields %}<code>{{ field }}</code>{% endfor %}</div>{% else %}<p>尚未取得可靠响应样本，当前只确认 URI 线索。</p>{% endif %}
+      {% if item.persisted_fields %}<h3>当前已保存字段</h3><div class="upstream-fields persisted">{% for field in item.persisted_fields %}<code>{{ field }}</code>{% endfor %}</div>{% endif %}
+      {% if item.not_persisted_fields %}<h3>神州已返回、当前未保存字段</h3><div class="upstream-fields missing">{% for field in item.not_persisted_fields %}<code>{{ field }}</code>{% endfor %}</div>{% endif %}
+      {% if item.safe_probe %}<div class="upstream-probe"><button class="text-button" type="button" data-upstream-probe="{{ item.id }}">安全重新探测</button><span id="probe-result-{{ item.id }}">尚未在本页探测</span></div>{% endif %}
+    </div>
+  </details>
+{% endfor %}
+</section>
+{% endblock %}

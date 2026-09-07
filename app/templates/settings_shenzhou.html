@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block page %}settings-shenzhou{% endblock %}
+{% block content %}
+<section class="page-title settings-title">
+  <p class="eyebrow">SHENZHOU OPEN CATALOG</p>
+  <h1>神州开放城市</h1>
+  <p>从神州匿名开放接口读取当前可选城市，用于管理后续扫描范围。</p>
+</section>
+
+{% include "_settings_tabs.html" %}
+
+<section class="panel catalog-panel">
+  <div class="section-heading settings-heading">
+    <div><span>ANONYMOUS SOURCE</span><h2>神州匿名开放接口</h2></div>
+    <strong id="shenzhou-catalog-status" class="integration-status">正在读取…</strong>
+  </div>
+  <div class="catalog-layout">
+    <div class="catalog-stat"><span>已记录城市</span><b id="shenzhou-city-count">—</b></div>
+    <div class="catalog-stat"><span>当前开放</span><b id="shenzhou-active-count">—</b></div>
+    <div class="catalog-stat wide"><span>最近同步</span><b id="shenzhou-last-sync">尚未同步</b></div>
+  </div>
+  <div class="settings-actions catalog-actions">
+    <button id="shenzhou-catalog-test" class="text-button" type="button">测试匿名接口</button>
+    <button id="shenzhou-catalog-sync" class="primary" type="button">同步城市目录</button>
+  </div>
+</section>
+
+<section class="settings-notice">
+  <div><b>同步含义</b><p>目录仅表示该匿名接口当前返回的开放城市，不等于全国网点完整，也不会自动启动全国扫描。</p></div>
+  <div><b>人工范围优先</b><p>新城市默认不启用；已保存城市的启用状态保持不变。接口暂不可用时会安全提示，不使用其他身份方式重试。</p></div>
+</section>
+{% endblock %}

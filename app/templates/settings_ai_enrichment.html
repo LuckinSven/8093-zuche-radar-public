@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block page %}settings-ai-enrichment{% endblock %}
+{% block page_styles %}<link rel="stylesheet" href="/static/enrichment.css">{% endblock %}
+{% block content %}
+<section class="page-title settings-title">
+  <p class="eyebrow">OPENAI-COMPATIBLE API</p>
+  <h1>AI 车型补全</h1>
+  <p>填写任意兼容 Chat Completions 的接口，用于识别车型能源大类和细分类型。这里只保存配置，不会自动启动任务。</p>
+</section>
+
+{% include "_settings_tabs.html" %}
+
+<section class="panel integration-panel ai-settings-panel">
+  <div class="section-heading settings-heading">
+    <div><span>MODEL SERVICE</span><h2>OpenAI 兼容接口</h2></div>
+    <strong id="ai-enrichment-status" class="integration-status">正在读取…</strong>
+  </div>
+  <div class="settings-layout">
+    <form id="ai-enrichment-settings-form" class="stack">
+      <label>API Key
+        <input name="api_key" type="password" maxlength="512" autocomplete="new-password" placeholder="留空表示继续使用已保存的密钥">
+      </label>
+      <div class="secret-summary"><span>当前保存</span><b id="ai-enrichment-secret-status">尚未配置</b></div>
+      <label>Base URL
+        <input name="base_url" type="url" value="https://api.deepseek.com" maxlength="512" required>
+      </label>
+      <label>模型名称
+        <input name="model" value="deepseek-chat" maxlength="128" required>
+      </label>
+      <div class="ai-single-model-mode">
+        <input name="batch_size" type="hidden" value="1">
+        <b>逐车型处理</b>
+        <span>每次仅处理 1 款车型，避免兼容接口批量返回格式异常。</span>
+      </div>
+      <div class="ai-settings-numbers">
+        <label>超时（秒）<input name="timeout_seconds" type="number" value="30" min="10" max="300" required></label>
+        <label>最大重试<input name="max_retries" type="number" value="1" min="0" max="5" required></label>
+      </div>
+      <label class="switch integration-switch">
+        <input name="enabled" type="checkbox"><span>启用 AI 车型补全</span>
+      </label>
+      <div class="settings-actions">
+        <button class="primary" type="submit">保存配置</button>
+        <button id="test-ai-enrichment" class="text-button" type="button">测试 API</button>
+        <button id="clear-ai-enrichment-secret" class="text-button danger" type="button">清除密钥</button>
+      </div>
+    </form>
+    <aside class="test-workspace">
+      <p class="eyebrow">CONNECTION TEST</p>
+      <h3>验证结构化识别</h3>
+      <p>测试会发送一个固定纯电车型，检查连接、JSON 模式和字段格式，不会修改车型库。</p>
+      <div id="ai-enrichment-test-result" class="test-result" aria-live="polite">
+        <span>尚未测试</span><p>先保存并启用配置，再点击“测试 API”。</p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="settings-notice">
+  <div><b>密钥保护</b><p>完整 API Key 仅保存在本机数据库；页面、接口和安全错误只返回脱敏信息。</p></div>
+  <div><b>调用范围</b><p>第一版只使用 <code>/chat/completions</code>，不会调用网页搜索，也不会定时自动运行。</p></div>
+</section>
+{% endblock %}
+{% block page_scripts %}<script src="/static/enrichment.js"></script>{% endblock %}

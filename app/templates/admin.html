@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block page %}admin{% endblock %}
+{% block content %}
+<section class="page-title"><p class="eyebrow">CONTROL ROOM</p><h1>扫描控制室</h1><p>先以广州为中心，数据结构可继续扩展到全国。</p></section>
+<div class="admin-grid">
+  <section class="panel"><h2 id="city-form-title">添加城市</h2><form id="city-form" class="stack"><input id="city-edit-id" type="hidden"><label>神州城市 ID<input name="zuche_city_id" value="14" required></label><label>城市名称<input name="name" value="广州" required></label><div class="pair"><label>纬度<input name="latitude" value="23.1291" required></label><label>经度<input name="longitude" value="113.2644" required></label></div><button class="primary">保存城市</button><button id="city-cancel" class="text-button" type="button" hidden>取消编辑</button></form></section>
+  <section class="panel"><h2 id="probe-form-title">添加扫描点</h2><form id="probe-form" class="stack"><input id="probe-edit-id" type="hidden"><label>城市<select name="city_id" id="probe-city" required></select></label><label>名称<input name="name" placeholder="例如 珠江新城地铁站" required></label><div class="pair"><label>纬度<input name="latitude" required></label><label>经度<input name="longitude" required></label></div><label>计划<input name="schedule" placeholder="interval:30 或 cron 表达式"></label><label class="switch"><input name="enabled" type="checkbox"><span>启用自动扫描</span></label><button class="primary">保存扫描点</button><button id="probe-cancel" class="text-button" type="button" hidden>取消编辑</button></form></section>
+</div>
+<section class="panel"><div class="section-heading"><div><span>CITIES</span><h2>城市</h2></div><p>手动坐标扫描时先选择对应城市</p></div><div id="city-list" class="probe-list"></div></section>
+<section class="panel"><div class="section-heading"><div><span>PROBES</span><h2>扫描点</h2></div><p>自动扫描默认关闭</p></div><p>可编辑地点和计划、启用或停用自动扫描，也可删除扫描点；启用前必须设置计划。</p><div id="probe-list" class="probe-list"></div></section>
+<section class="retention"><b>60</b><div><h2>天原始响应保留</h2><p>压缩原始 JSON 到期自动清理；车型、报价快照和变化历史长期保存。</p></div></section><p class="price-note">系统展示价格为神州基础/列表价格，非最终结算价。</p>
+{% endblock %}

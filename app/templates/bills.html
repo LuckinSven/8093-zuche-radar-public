@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block page %}bills{% endblock %}
+{% block page_styles %}<link rel="stylesheet" href="/static/bills.css">{% endblock %}
+{% block content %}
+<section class="page-title bill-title">
+  <div class="bill-title-line"><p class="eyebrow">RENTAL BILL ARCHIVE</p><span class="bill-planned-badge">功能规划中</span></div>
+  <h1>历史账单统计，<em>留住每次租车。</em></h1>
+  <p>这个入口先保留下来，避免以后忘记。当前只展示功能规划，不会上传、识别或保存任何账单。</p>
+</section>
+
+<section class="panel bill-roadmap" id="bill-feature-roadmap">
+  <div class="section-heading"><div><span>FUTURE FLOW</span><h2>未来使用流程</h2></div><p>图片到账单记录</p></div>
+  <ol class="bill-flow">
+    <li><span>01</span><div><b>上传账单图片</b><p>支持租车订单、结算单或支付截图。</p></div></li>
+    <li><span>02</span><div><b>AI 识别</b><p>提取车型、租期、网点和各项费用。</p></div></li>
+    <li><span>03</span><div><b>人工确认</b><p>保存前核对识别结果，避免金额登记错误。</p></div></li>
+    <li><span>04</span><div><b>登记与统计</b><p>形成可查询的历史账单和费用趋势。</p></div></li>
+  </ol>
+</section>
+
+<section class="bill-preview-grid">
+  <article class="panel bill-upload" id="bill-upload-placeholder">
+    <div class="bill-placeholder-icon" aria-hidden="true">＋</div>
+    <p class="eyebrow">IMAGE UPLOAD</p>
+    <h2>上传账单图片</h2>
+    <p>未来会在这里选择或拖入图片，再交给已配置的 OpenAI 兼容接口识别。</p>
+    <button class="primary" type="button" disabled>暂不可用 · 待后续开发</button>
+  </article>
+
+  <article class="panel bill-fields">
+    <div class="section-heading"><div><span>RECORD FIELDS</span><h2>计划登记内容</h2></div></div>
+    <div class="bill-field-list">
+      <span>租车平台</span><span>车型</span><span>取还时间</span><span>取还网点</span>
+      <span>基础租金</span><span>保险</span><span>服务费</span><span>优惠金额</span><span>实付金额</span>
+    </div>
+  </article>
+</section>
+
+<section class="panel bill-stat-preview">
+  <div class="section-heading"><div><span>STATISTICS</span><h2>未来统计视图</h2></div><p>有账单后自动汇总</p></div>
+  <div class="bill-stats">
+    <article><span>累计花费</span><b>—</b><small>所有已确认账单</small></article>
+    <article><span>租车次数</span><b>—</b><small>按订单去重</small></article>
+    <article><span>平均单次费用</span><b>—</b><small>实付金额平均值</small></article>
+    <article><span>常租车型</span><b>—</b><small>按车型统计次数</small></article>
+    <article><span>月度趋势</span><b>—</b><small>按月份观察花费</small></article>
+  </div>
+</section>
+{% endblock %}

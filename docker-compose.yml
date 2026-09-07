@@ -1,0 +1,44 @@
+name: zuche-radar
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-zuche_radar}
+      POSTGRES_USER: ${POSTGRES_USER:-zuche}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?请在 .env 中配置 POSTGRES_PASSWORD}
+      TZ: Asia/Shanghai
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-zuche} -d ${POSTGRES_DB:-zuche_radar}"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+
+  app:
+    build: .
+    restart: unless-stopped
+    init: true
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-zuche}:${POSTGRES_PASSWORD:?请在 .env 中配置 POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-zuche_radar}
+      APP_PORT: ${APP_PORT:-8093}
+      RAW_RETENTION_DAYS: ${RAW_RETENTION_DAYS:-60}
+      TZ: Asia/Shanghai
+    ports:
+      - "0.0.0.0:${APP_PORT:-8093}:${APP_PORT:-8093}"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import os, urllib.request; port=os.environ.get('APP_PORT', '8093'); urllib.request.urlopen(f'http://127.0.0.1:{port}/healthz', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 15s
+
+volumes:
+  postgres_data:

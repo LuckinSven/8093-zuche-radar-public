@@ -1,0 +1,78 @@
+{
+  "busiCode": "SUCCESS",
+  "code": 1,
+  "content": {
+    "deptHangModels": [
+      {
+        "pickupWebsite": 6,
+        "deptId": 1001,
+        "deptName": "广州测试服务点",
+        "lon": "113.282120",
+        "lat": "23.129100",
+        "deptAddress": "广州市越秀区测试路 1 号",
+        "modelCountDesc": "2款车型可租",
+        "deptDistance": "2.04km",
+        "wholeDayFlag": false,
+        "cityId": 14,
+        "chainFlag": false,
+        "pickupAppropriate": 1,
+        "deptDistanceDouble": 2.04,
+        "workTime": "00:00-23:59",
+        "models": [
+          {
+            "modelImgUrl": "https://dfs.zuchecdn.com/redacted/4665.png",
+            "packagePrice": "88",
+            "lowPrice": 88.0,
+            "modelId": 4665,
+            "havePriceFlag": true,
+            "modelName": "雪佛兰科鲁泽",
+            "lightSpotFlag": true,
+            "inventoryType": 1,
+            "dailyPrice": "88",
+            "modelDesc": "1.5自动粤A牌 | 三厢5座",
+            "modelGroupId": 2,
+            "bookFlag": true,
+            "selfServiceFlag": true
+          },
+          {
+            "modelImgUrl": "https://dfs.zuchecdn.com/redacted/4666.png",
+            "packagePrice": "98",
+            "lowPrice": 98.0,
+            "modelId": 4666,
+            "havePriceFlag": true,
+            "modelName": "大众途铠",
+            "lightSpotFlag": true,
+            "inventoryType": 1,
+            "dailyPrice": "98",
+            "modelDesc": "1.5自动粤A牌 | SUV5座",
+            "modelGroupId": 16,
+            "bookFlag": true,
+            "selfServiceFlag": true
+          }
+        ]
+      }
+    ],
+    "modelGroups": [
+      {
+        "groupId": 2,
+        "lowPriceDesc": "¥68起",
+        "name": "经济型",
+        "modelItems": [{"modelId": 4665, "modelName": "雪佛兰科鲁泽", "lowPriceDesc": "¥88起"}],
+        "sortNum": 1
+      },
+      {
+        "groupId": 16,
+        "lowPriceDesc": "¥98起",
+        "name": "SUV",
+        "modelItems": [{"modelId": 4666, "modelName": "大众途铠", "lowPriceDesc": "¥98起"}],
+        "sortNum": 3
+      }
+    ],
+    "deptDataType": 1,
+    "deptTotalNum": 1,
+    "notSuitDeptTips": ""
+  },
+  "msg": "成功",
+  "status": 1,
+  "uid": "REDACTED"
+}

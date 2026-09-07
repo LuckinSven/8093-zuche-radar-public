@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block page %}settings{% endblock %}
+{% block content %}
+<section class="page-title settings-title">
+  <p class="eyebrow">SYSTEM SETTINGS</p>
+  <h1>系统设置</h1>
+  <p>集中管理外部服务。当前先接入百度地图，后续可在这里继续增加通知、数据源等配置。</p>
+</section>
+
+{% include "_settings_tabs.html" %}
+
+<section class="panel integration-panel">
+  <div class="section-heading settings-heading">
+    <div><span>MAP SERVICE</span><h2>百度地图 API</h2></div>
+    <strong id="baidu-status" class="integration-status">正在读取…</strong>
+  </div>
+  <div class="settings-layout">
+    <form id="baidu-test-form" method="post" action="/api/settings/integrations/baidu_maps/test"></form>
+    <form id="baidu-settings-form" class="stack">
+      <label>服务端 AK
+        <input name="ak" type="password" maxlength="128" autocomplete="new-password" placeholder="留空表示继续使用已保存的 AK">
+      </label>
+      <div class="secret-summary">
+        <span>当前保存</span><b id="baidu-secret-status">尚未配置</b>
+      </div>
+      <div class="pair">
+        <label>默认城市<input name="default_region" value="广州" maxlength="64" required></label>
+        <label>测试关键词<input name="test_keyword" value="三溪地铁站" maxlength="64" required></label>
+      </div>
+      <label class="switch integration-switch">
+        <input name="enabled" type="checkbox"><span>启用百度地图服务</span>
+      </label>
+      <div class="settings-actions">
+        <button class="primary" type="submit">保存配置</button>
+        <button id="test-baidu" class="text-button" type="submit" form="baidu-test-form">测试 API</button>
+        <button id="clear-baidu-secret" class="text-button danger" type="button">清除 AK</button>
+      </div>
+    </form>
+
+    <aside class="test-workspace">
+      <p class="eyebrow">CONNECTION TEST</p>
+      <h3>验证两项能力</h3>
+      <p>测试会先检索地点，再把百度坐标转换为神州扫描所需的 GCJ-02 坐标。</p>
+      <div id="baidu-test-result" class="test-result" aria-live="polite">
+        <span>尚未测试</span>
+        <p>保存并启用配置后，点击“测试 API”。</p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="settings-notice">
+  <div><b>密钥保护</b><p>完整 AK 仅保存到本机数据库，页面和接口只显示脱敏结果；数据库备份中仍会包含密钥。</p></div>
+  <div><b>使用范围</b><p>系统没有登录鉴权，仅适合可信局域网使用，请勿把 8093 端口直接开放到公网。</p></div>
+</section>
+{% endblock %}

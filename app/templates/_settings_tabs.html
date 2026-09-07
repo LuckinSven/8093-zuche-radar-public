@@ -1,0 +1,9 @@
+<nav class="settings-tabs" aria-label="系统设置分类">
+  <a{% if settings_tab == 'integrations' %} class="active"{% endif %} href="/settings">集成配置</a>
+  <a{% if settings_tab == 'ai-enrichment' %} class="active"{% endif %} href="/settings/ai-enrichment">AI 补全</a>
+  <a{% if settings_tab == 'map-cache' %} class="active"{% endif %} href="/settings/map-cache">地图缓存</a>
+  <a{% if settings_tab == 'shenzhou' %} class="active"{% endif %} href="/settings/shenzhou">神州开放城市</a>
+  <a{% if settings_tab == 'departments' %} class="active"{% endif %} href="/settings/departments">已发现网点</a>
+  <a{% if settings_tab == 'api' %} class="active"{% endif %} href="/settings/api">API 接口</a>
+  <a{% if settings_tab == 'zuche-apis' %} class="active"{% endif %} href="/settings/zuche-apis">神州上游接口</a>
+</nav>

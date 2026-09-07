@@ -1,0 +1,40 @@
+{% extends "base.html" %}{% block page %}library{% endblock %}{% block page_styles %}<link rel="stylesheet" href="/static/citywide.css"><link rel="stylesheet" href="/static/enrichment.css">{% endblock %}{% block content %}
+<section class="page-title"><p class="eyebrow">PERMANENT MODEL LIBRARY</p><h1>车型库，<em>只增不删。</em></h1><p>保存所有曾经发现的车型、首次与最近发现时间和个人标签。</p></section>
+<section class="panel enrichment-launch-panel">
+  <div class="enrichment-launch-heading">
+    <div><p class="eyebrow">AI ENERGY ENRICHMENT</p><h2>补全能源信息</h2><p>只处理未知、低置信或缺少细分的车型；高置信结果才会自动生效。</p></div>
+    <button id="start-ai-enrichment" class="primary" type="button">AI 补全车型信息</button>
+  </div>
+  <details class="enrichment-more-actions">
+    <summary>更多操作</summary>
+    <div><button id="start-ai-enrichment-all" class="text-button" type="button">重新识别全部车型</button><a class="text-button" href="/library/ai-runs">查看 AI 补全记录</a></div>
+  </details>
+  <div id="ai-enrichment-progress" class="enrichment-progress" aria-live="polite"><span>正在读取最近任务…</span></div>
+</section>
+<section class="panel">
+  <form id="model-library-filters" class="model-library-filter-panel">
+    <div class="model-library-primary-filters">
+      <label>搜索车型<input name="q" placeholder="输入车型名称"></label>
+      <label>能源<select name="energy_type"><option value="">全部</option><option value="新能源">新能源</option><option value="燃油">燃油</option></select></label>
+      <label>个人标签<select name="personal_state"><option value="">全部</option><option value="WANT_TO_RENT">想租</option><option value="LIKED">喜欢</option><option value="RENTED">租过</option><option value="NOT_CONSIDERING">不考虑</option></select></label>
+      <label>排序<select name="sort"><option value="recent">最近发现</option><option value="first_seen">首次发现</option><option value="name">车型名称</option></select></label>
+      <button class="primary" type="submit">应用筛选</button>
+    </div>
+    <details id="model-library-advanced-filters">
+      <summary>高级筛选</summary>
+      <div class="model-library-advanced-grid">
+        <label>首次发现从<input name="first_seen_from" type="date"></label>
+        <label>最近发现从<input name="last_seen_from" type="date"></label>
+      </div>
+    </details>
+  </form>
+  <div id="model-library-summary" class="model-library-summary" aria-live="polite">
+    <span><b data-library-variants>—</b><small>细节车型</small></span>
+    <span><b data-library-names>—</b><small>车型名称</small></span>
+    <span><b data-library-new>—</b><small>近 7 天新增</small></span>
+  </div>
+  <div class="library-list-heading" aria-hidden="true"><span>车型</span><span>能源</span><span>个人标签</span><span>最近发现</span><span></span></div>
+  <div id="model-library-list" class="model-workbook" aria-live="polite"><div class="loading">正在读取永久车型库…</div></div>
+  <nav id="model-library-pages" class="data-pages" aria-label="车型库分页"></nav>
+</section>
+{% endblock %}{% block page_scripts %}<script src="/static/citywide.js"></script><script src="/static/enrichment.js"></script>{% endblock %}

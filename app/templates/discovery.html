@@ -1,0 +1,48 @@
+{% extends "base.html" %}{% block page %}discovery{% endblock %}{% block page_styles %}<link rel="stylesheet" href="/static/citywide.css">{% endblock %}{% block content %}
+<section class="page-title find-title"><p class="eyebrow">GUANGZHOU CAR FINDER</p><h1>先看全城，<em>再反向找车。</em></h1><p>首页只负责发起任务。车型、可取网点和准确租期统一到结果页查看。</p></section>
+
+<section class="panel citywide-scan-panel"><div class="section-heading"><div><span>01</span><h2>广州全城车型扫描</h2></div><p>默认入口 · 手动触发 · 按网点遍历</p></div>
+  <form id="citywide-scan-form" class="scan-grid" data-city-id="14">
+    <div class="selected-location wide"><span>扫描范围</span><b>广州全部已同步网点</b><small>用于扩充车型库和查看当前租期全城车源</small></div>
+    <div class="presets wide" role="group" aria-label="全城扫描时间快捷选项"><button data-citywide-preset="this_saturday" type="button">本周六一天</button><button data-citywide-preset="next_saturday" type="button">下周六一天</button><button data-citywide-preset="this_weekend" type="button">周末两天</button><button data-citywide-preset="custom" type="button">自定义</button></div>
+    <label>取车时间<input name="pickup_time" type="datetime-local" required></label><label>还车时间<input name="return_time" type="datetime-local" required></label>
+    <button class="primary wide" id="citywide-scan-submit" type="submit"><span>启动广州全城扫描</span><b>→</b></button>
+  </form>
+  <div id="citywide-scan-progress" class="scan-feedback" data-state="idle" role="status" aria-live="polite"><div><b>尚未启动</b><p>启动后显示计划、完成、失败网点和新车型数量。</p></div></div>
+  <a class="text-button scan-runs-link" href="/scan-runs">查看全部扫描记录 →</a>
+
+  <details id="fish-quick-scan" class="quick-scan-compact"><summary>鱼珠附近快速扫描（偶尔使用）</summary>
+    <form id="manual-scan-form" class="scan-grid">
+      <div class="selected-location wide"><span>当前网点</span><b id="selected-department-name">鱼珠地铁站服务点</b><small>黄埔区 · 鱼珠地铁站 D 出口</small></div>
+      <details id="location-picker" class="wide"><summary>更换地点</summary><div class="location-picker-grid">
+        <label>区域<select id="location-district"><option selected>黄埔区</option></select></label>
+        <label>地铁站<select id="location-metro"><option selected>鱼珠地铁站</option></select></label>
+        <label>神州网点<select name="department_id" id="scan-department"><option value="79340" data-name="鱼珠地铁站服务点" data-lat="23.10161" data-lon="113.432649" selected>鱼珠地铁站服务点</option></select></label>
+      </div></details>
+      <div class="presets wide" role="group" aria-label="时间快捷选项"><button data-preset="this_saturday" type="button">本周六一天</button><button data-preset="next_saturday" type="button">下周六一天</button><button data-preset="this_weekend" type="button">周末两天</button><button data-preset="custom" type="button">自定义</button></div>
+      <label>取车时间<input name="pickup_time" type="datetime-local" required></label><label>还车时间<input name="return_time" type="datetime-local" required></label>
+      <button class="primary wide" id="manual-scan-submit" type="submit"><span id="manual-scan-submit-label">立即扫描鱼珠附近车源</span><b>→</b></button>
+      <div class="scan-feedback wide" id="scan-feedback" data-state="idle" role="status" aria-live="polite" aria-atomic="true"><span class="scan-feedback-mark" aria-hidden="true"></span><div><b id="scan-feedback-title">准备就绪</b><p id="scan-feedback-detail">点击上方按钮后，这里会显示扫描进度和结果。</p></div></div>
+    </form>
+  </details>
+</section>
+
+<section class="panel model-search-panel"><div class="section-heading"><div><span>02</span><h2>按车型找车</h2></div><p>未来 4 个周末 · 多车型 · 全城反查</p></div>
+  <form id="model-search-form" class="model-search-form" autocomplete="off">
+    <label class="wide">从车型库选择车型
+      <input id="model-search-input" type="search" placeholder="输入车型名称，例如 比亚迪海狮05" aria-controls="model-search-suggestions" aria-autocomplete="list">
+    </label>
+    <div id="model-search-suggestions" class="model-search-suggestions wide" role="listbox" hidden></div>
+    <div id="model-search-selected" class="model-search-selected wide" aria-live="polite"><span>尚未选择车型</span></div>
+    <div class="model-search-rule wide"><b>固定采样规则</b><p>未来 4 个周末，先扫描周六 09:00 的 24/48 小时窗口；找到候选网点后，再按小时补扫。超过 2000 次请求会自动降速，超过 5000 次不会启动。</p></div>
+    <button id="model-search-submit" class="primary wide" type="submit" disabled><span>开始反向找车</span><b>→</b></button>
+  </form>
+  <div id="model-search-progress" class="scan-feedback" data-state="idle" role="status" aria-live="polite"><div><b>等待选择车型</b><p>任务启动后可离开页面，进度和结果会保存在扫描记录中。</p></div></div>
+</section>
+
+<form id="discovery-filters" hidden aria-hidden="true"><select name="department_id"><option value="79340" selected>鱼珠地铁站服务点</option></select><select id="group-filter" name="group_id"><option value="">全部</option></select><input name="max_price"><input name="body_style"><input name="energy_type"><input name="bookable"><input name="seat_count"><select name="personal_state"><option value="UNTRIED">未租过</option></select><details id="more-filters"></details><button id="reset-filters" type="button">清空</button></form>
+<section class="panel scan-summary-panel"><div class="section-heading"><div><span>03</span><h2>最近扫描汇总</h2></div><span id="scan-status">等待扫描</span></div>
+  <div class="find-summary"><article><span>鱼珠可租车型</span><b id="fish-model-count">—</b></article><article><span>附近补充车型</span><b id="nearby-model-count">—</b></article><article><span>首次 / 重新出现</span><b id="new-model-count">—</b></article><article><span>扫描与租期</span><b id="latest-scan-summary">尚无本次结果</b></article></div>
+  <a class="primary-link" id="view-data-table" href="/data">到报价明细查看扫描数据 →</a>
+</section>
+{% endblock %}{% block page_scripts %}<script src="/static/citywide.js"></script>{% endblock %}

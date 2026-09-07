@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block page %}scan-runs{% endblock %}{% block page_styles %}<link rel="stylesheet" href="/static/citywide.css">{% endblock %}{% block content %}
+<section class="page-title"><p class="eyebrow">SCAN HISTORY</p><h1>扫描记录，<em>每次都有进度。</em></h1><p>全城车型扫描和按车型找车分开查看；进行中的任务会自动刷新。</p></section>
+<section class="panel scan-runs-panel">
+  <div class="run-tabs" role="tablist" aria-label="扫描任务类型"><button class="text-button is-active" type="button" role="tab" aria-selected="true" data-run-tab="citywide">全城车型扫描</button><button class="text-button" type="button" role="tab" aria-selected="false" data-run-tab="model-search">按车型找车</button><button id="citywide-runs-refresh" class="text-button" type="button">刷新</button></div>
+  <section data-run-panel="citywide"><div class="section-heading"><div><span>GUANGZHOU RUNS</span><h2>广州全城扫描</h2></div></div><div id="citywide-run-list" class="citywide-run-list" aria-live="polite"><div class="loading">正在读取扫描记录…</div></div><nav id="citywide-run-pages" class="data-pages" aria-label="全城扫描记录分页"></nav></section>
+  <section data-run-panel="model-search" hidden><div class="section-heading"><div><span>MODEL SEARCH</span><h2>按车型找车</h2></div></div><div id="model-search-run-list" class="citywide-run-list" aria-live="polite"><div class="loading">正在读取找车记录…</div></div><nav id="model-search-run-pages" class="data-pages" aria-label="按车型找车记录分页"></nav></section>
+</section>
+{% endblock %}{% block page_scripts %}<script src="/static/citywide.js"></script>{% endblock %}

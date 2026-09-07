@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block page %}model-search-results{% endblock %}{% block body_attrs %}data-run-id="{{ run_id }}"{% endblock %}{% block page_styles %}<link rel="stylesheet" href="/static/citywide.css">{% endblock %}{% block content %}
+<section class="page-title"><p class="eyebrow">MODEL SEARCH RESULTS</p><h1>按车型找车，<em>精确到租期与网点。</em></h1><p>结果来自广州全城基础扫描与候选网点小时补扫，可随任务进度持续更新。</p></section>
+<section class="panel model-search-result-panel">
+  <div id="model-search-run-summary" class="scan-feedback" data-state="idle" role="status" aria-live="polite"><div><b>正在读取任务…</b><p>请稍候</p></div></div>
+  <div class="result-trust-note"><b>结果口径</b><p>“未找到”只会在相关采样全部完成后显示；失败或尚未执行的样本显示“扫描不完整”。第一版按广州同城还车查询，实际还车网点请在神州租车确认。</p></div>
+  <form class="result-toolbar"><label>车型总体结果<select id="model-search-availability"><option value="AVAILABLE">有可租时段</option><option value="NOT_FOUND">完全未找到</option><option value="INCOMPLETE">扫描不完整</option><option value="ALL">全部车型</option></select></label><label>租期明细<select id="model-search-period-availability"><option value="AVAILABLE">只看可租租期</option><option value="NOT_FOUND">只看未找到租期</option><option value="INCOMPLETE">只看扫描不完整</option><option value="ALL">全部租期</option></select></label><button id="model-search-results-refresh" class="text-button" type="button">刷新</button></form>
+  <div id="model-search-results" class="model-search-results" aria-live="polite"><div class="loading">正在读取结果…</div></div>
+  <nav id="model-search-result-pages" class="data-pages" aria-label="找车结果分页"></nav>
+</section>
+{% endblock %}{% block page_scripts %}<script src="/static/citywide.js"></script>{% endblock %}

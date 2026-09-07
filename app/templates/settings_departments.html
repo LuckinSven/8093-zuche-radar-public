@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block page %}settings-departments{% endblock %}
+{% block content %}
+<section class="page-title settings-title">
+  <p class="eyebrow">SHENZHOU DEPARTMENT DISCOVERY</p>
+  <h1>已发现网点</h1>
+  <p>同步并查看广州神州服务点。目录来自当前匿名接口，不能保证完整；历史记录不会因一次同步缺失而删除。</p>
+</section>
+
+{% include "_settings_tabs.html" %}
+
+<section class="department-stats" aria-label="已发现网点概况">
+  <article><span>已发现</span><b id="department-discovered-count">—</b></article>
+  <article><span>含坐标</span><b id="department-coordinate-count">—</b></article>
+  <article><span>行政区</span><b id="department-district-count">—</b></article>
+  <article><span>最近发现</span><b id="department-latest-seen">—</b></article>
+</section>
+
+<section class="settings-notice department-notice">
+  <div><b>目录与车源分开</b><p>网点目录由匿名目录接口同步；车型与库存仍由找车扫描返回。目录同步不会删除过去发现的网点。</p></div>
+  <div><b>聚焦广州</b><p>日常只需同步广州目录并从首页发起全城车型扫描，其他城市仍保留在系统设置中。</p></div>
+</section>
+
+<section class="panel department-list-panel">
+  <div class="section-heading settings-heading">
+    <div><span>DISCOVERED DATA</span><h2>网点目录</h2></div>
+    <div class="settings-actions">
+      <button id="department-directory-sync" class="text-button" type="button">同步广州网点目录</button>
+      <button id="department-city-sync" class="text-button" type="button">同步开放城市</button>
+      <strong id="department-create-status" class="integration-status paused">正在读取…</strong>
+      <strong id="department-list-total" class="integration-status">正在读取…</strong>
+    </div>
+  </div>
+  <form id="department-filter" class="department-filter">
+    <label>城市<select name="city_id"><option value="">所有已记录城市</option></select></label>
+    <label>行政区<input name="district" maxlength="128" placeholder="例如：天河区"></label>
+    <label>关键词<input name="keyword" maxlength="256" placeholder="名称或地址"></label>
+    <label>状态
+      <select name="status">
+        <option value="">所有状态</option>
+        <option value="DISCOVERED">已发现</option>
+        <option value="RECENTLY_SEEN">近期出现</option>
+        <option value="LONG_UNSEEN">长期未见</option>
+        <option value="MANUALLY_DISABLED">人工停用</option>
+      </select>
+    </label>
+    <button class="primary" type="submit">筛选</button>
+  </form>
+  <div id="department-districts" class="department-districts" aria-label="行政区分布"></div>
+  <div id="department-list" class="department-list" aria-live="polite">
+    <div class="loading">正在读取已发现网点…</div>
+  </div>
+  <nav id="department-pages" class="cache-pages" aria-label="网点分页"></nav>
+</section>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block page %}settings-api{% endblock %}
+{% block content %}
+<section class="page-title settings-title">
+  <p class="eyebrow">SYSTEM SETTINGS · API CATALOG</p>
+  <h1>API 接口</h1>
+  <p>从系统当前 OpenAPI 定义自动生成。可以复制快速说明，交给能够访问本局域网的其他 AI 使用。</p>
+</section>
+
+{% set settings_tab = 'api' %}{% include "_settings_tabs.html" %}
+
+<section class="panel api-guide">
+  <div class="section-heading"><div><span>AI QUICK START</span><h2>交给其他 AI 的找车说明</h2></div><button id="copy-ai-api-brief" class="text-button" type="button">复制说明</button></div>
+  <textarea id="ai-api-brief" readonly rows="13">你可以调用我的个人神州车型雷达，基础地址是 {{ base_url }}，无需鉴权，但只能在能够访问该局域网地址的环境中使用。
+
+广州全城找车步骤：
+1. GET {{ base_url }}/api/cities，找到 name 为“广州”的记录（若有 upstream_city_id 则通常为 14），使用它的数据库 id 作为下方 city_id。
+2. POST {{ base_url }}/api/citywide-scans，提交 city_id、pickup_time、return_time；两个时间都要带 +08:00 时区。
+3. GET {{ base_url }}/api/citywide-scans/{run_id} 轮询，直到 COMPLETED 或 PARTIAL。
+4. GET {{ base_url }}/api/citywide-models?run_id={run_id}&amp;availability=AVAILABLE&amp;page_size=100 查询该租期可租车型；可用 q 搜索车名。
+5. GET {{ base_url }}/api/citywide-models/{model_id}/offers?run_id={run_id} 查询实际可取网点、鱼珠距离和网点报价。
+6. GET {{ base_url }}/api/model-library?q=车名 查询永久车型库；它不等同于当前租期有车。
+
+AVAILABLE 表示当前租期明确可租，NOT_FOUND 表示完整扫描未发现，INCOMPLETE 表示扫描不完整、不能据此断言无车。价格是神州基础/列表价，不是最终结算价。请同时返回租期、任务状态、车型、网点、距离、均价和价格区间。</textarea>
+  <p class="api-guide-note">外部 ChatGPT 通常无法直接访问 192.168.x.x。只有其运行环境位于同一局域网或具备访问通道时，才能直接调用。</p>
+</section>
+
+<section id="api-catalog" class="api-catalog" data-endpoint-count="{{ catalog.count }}">
+  <div class="api-catalog-heading"><div><p class="eyebrow">LIVE OPENAPI CATALOG</p><h2>{{ catalog.count }} 个当前接口</h2></div><a class="text-button" href="/docs" target="_blank" rel="noreferrer">打开原始技术文档</a></div>
+  {% for group in catalog.groups %}
+  <section class="panel api-group"><h2>{{ group.name }}</h2>
+    <div class="api-list">
+    {% for item in group["items"] %}
+      <details class="api-item">
+        <summary data-endpoint="{{ item.method }} {{ item.path }}"><span class="api-method {{ 'write' if item.write else 'read' }}">{{ item.method }}</span><code>{{ item.path }}</code><span>{{ item.summary }}</span><b>{{ '写入操作' if item.write else '读取操作' }}</b></summary>
+        <div class="api-detail"><p>{{ item.description }}</p>
+          {% if item.parameters %}<h3>路径与查询参数</h3><div class="api-fields">{% for field in item.parameters %}<span><code>{{ field.name }}</code><small>{{ field.location }} · {{ field.type }} · {{ '必填' if field.required else '可选' }}</small></span>{% endfor %}</div>{% endif %}
+          {% if item.body_fields %}<h3>JSON 请求字段</h3><div class="api-fields">{% for field in item.body_fields %}<span><code>{{ field.name }}</code><small>{{ field.type }} · {{ '必填' if field.required else '可选' }}</small></span>{% endfor %}</div>{% endif %}
+          <h3>请求示例</h3><pre><code>{{ item.example }}</code></pre>
+          <p class="api-response">响应状态：{{ item.responses | join('、') }}</p>
+        </div>
+      </details>
+    {% endfor %}
+    </div>
+  </section>
+  {% endfor %}
+</section>
+{% endblock %}

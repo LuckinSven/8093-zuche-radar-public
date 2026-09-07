@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block page %}enrichment-runs{% endblock %}
+{% block page_styles %}<link rel="stylesheet" href="/static/enrichment.css">{% endblock %}
+{% block content %}
+<section class="page-title enrichment-runs-title">
+  <p class="eyebrow">AI ENRICHMENT RUNS</p>
+  <h1>AI 补全记录</h1>
+  <p>查看每次识别的范围、进度、Token 用量，以及保持未知和失败的车型。</p>
+  <a class="text-button" href="/library">← 返回车型库</a>
+</section>
+<section class="panel enrichment-history-panel">
+  <div class="section-heading"><div><span>RUN HISTORY</span><h2>历史任务</h2><p>可删除已结束的任务记录，不会删除车型库或已写入的能源信息。</p></div><button id="refresh-ai-enrichment-runs" class="text-button" type="button">刷新</button></div>
+  <div id="ai-enrichment-run-list" class="enrichment-run-list" aria-live="polite"><div class="loading">正在读取补全记录…</div></div>
+  <nav id="ai-enrichment-run-pages" class="data-pages" aria-label="AI 补全记录分页"></nav>
+</section>
+<template id="manual-energy-resolution-template">
+  <form class="manual-energy-resolution-form">
+    <label>能源大类
+      <select name="energy_type" required>
+        <option value="">请选择</option>
+        <option value="燃油">燃油</option>
+        <option value="新能源">新能源</option>
+        <option value="未知">保持未知</option>
+      </select>
+    </label>
+    <label>细分类型
+      <select name="energy_subtype" required disabled>
+        <option value="">请先选择大类</option>
+      </select>
+    </label>
+    <label class="manual-energy-note">确认依据
+      <input name="note" maxlength="500" placeholder="例如：品牌官网或行驶证已核对" required>
+    </label>
+    <button class="primary" type="submit">人工确认</button>
+  </form>
+</template>
+{% endblock %}
+{% block page_scripts %}<script src="/static/enrichment.js"></script>{% endblock %}

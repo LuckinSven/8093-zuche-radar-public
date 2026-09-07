@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block page %}settings-map-cache{% endblock %}
+{% block content %}
+<section class="page-title settings-title">
+  <p class="eyebrow">SYSTEM SETTINGS · MAP CACHE</p>
+  <h1>地图缓存</h1>
+  <p>常用地点和坐标会永久保留最新有效结果。再次搜索直接读取本机数据，只有首次搜索或手动刷新才使用百度额度。</p>
+</section>
+
+{% include "_settings_tabs.html" %}
+
+<section class="cache-stats" aria-label="地图缓存概况">
+  <article><span>地点缓存</span><b id="map-search-count">—</b></article>
+  <article><span>坐标缓存</span><b id="map-coordinate-count">—</b></article>
+  <article><span>累计命中</span><b id="map-hit-count">—</b></article>
+  <article><span>最近更新</span><b id="map-latest-refresh">—</b></article>
+</section>
+
+<section class="panel map-cache-panel">
+  <div class="section-heading settings-heading">
+    <div><span>CACHED DATA</span><h2>已保存的数据</h2></div>
+    <button id="clear-map-cache" class="text-button danger" type="button">清空全部缓存</button>
+  </div>
+  <form id="map-cache-filter" class="map-cache-filter">
+    <label>数据类型
+      <select name="kind">
+        <option value="all">全部</option>
+        <option value="search">地点</option>
+        <option value="coordinate">坐标</option>
+      </select>
+    </label>
+    <label>城市<input name="region" maxlength="256" placeholder="例如：广州"></label>
+    <label>关键词<input name="keyword" maxlength="256" placeholder="例如：三溪地铁站"></label>
+    <button class="primary" type="submit">筛选</button>
+  </form>
+  <p class="cache-warning">清空后无法恢复。单条刷新失败时，原有有效结果仍会保留。</p>
+  <div id="map-cache-list" class="map-cache-list" aria-live="polite">
+    <div class="loading">正在读取地图缓存…</div>
+  </div>
+  <nav id="map-cache-pages" class="cache-pages" aria-label="缓存分页"></nav>
+</section>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}{% block page %}citywide{% endblock %}{% block page_styles %}<link rel="stylesheet" href="/static/citywide.css">{% endblock %}{% block content %}
+<section class="page-title"><p class="eyebrow">CITYWIDE MODELS</p><h1>全城车型，<em>一款一行。</em></h1><p id="citywide-rental-period">请选择一次全城扫描查看对应租期。</p></section>
+<section class="panel">
+  <form id="citywide-model-filters" class="filter-grid">
+    <label>扫描租期<select name="run_id" required><option value="">请选择</option></select></label>
+    <label>搜索车型<input name="q" placeholder="例如 比亚迪海狮05"></label>
+    <label>可取网点<select name="department_id"><option value="">全部网点</option></select></label>
+    <label>距鱼珠<select name="max_fish_distance_km"><option value="">不限</option><option value="5">5 km 内</option><option value="10">10 km 内</option><option value="30">30 km 内</option></select></label>
+    <label>租期状态<select name="availability"><option value="">全部</option><option value="AVAILABLE">可租</option><option value="NOT_FOUND">本租期未发现</option><option value="INCOMPLETE">扫描未完成</option></select></label>
+    <label>能源<select name="energy_type"><option value="">全部</option><option value="新能源">新能源</option><option value="燃油">燃油</option></select></label>
+    <label>个人标签<select name="personal_state"><option value="">全部</option><option value="WANT_TO_RENT">想租</option><option value="LIKED">喜欢</option><option value="RENTED">租过</option><option value="NOT_CONSIDERING">不考虑</option></select></label>
+    <button class="primary" type="submit">应用筛选</button>
+  </form>
+  <div id="citywide-model-list" class="model-workbook" aria-live="polite"><div class="loading">请选择扫描租期…</div></div>
+  <nav id="citywide-model-pages" class="data-pages" aria-label="全城车型分页"></nav>
+  <a class="text-button" href="/data">查看高级报价明细</a>
+</section>
+{% include "_model_variant_detail.html" %}
+{% endblock %}{% block page_scripts %}<script src="/static/citywide.js"></script>{% endblock %}
