@@ -28,7 +28,7 @@ def test_acceptance_script_can_run_directly_from_project_root():
 
 
 def test_readme_documents_citywide_states_and_retention():
-    readme = (Path(__file__).resolve().parents[1] / "README.md").read_text(encoding="utf-8")
+    readme = (Path(__file__).resolve().parents[1] / "README.zh-CN.md").read_text(encoding="utf-8")
 
     assert "广州全城扫描" in readme
     assert "AVAILABLE" in readme
@@ -39,7 +39,7 @@ def test_readme_documents_citywide_states_and_retention():
 
 
 def test_readme_documents_ai_enrichment_operation_and_recovery():
-    readme = (Path(__file__).resolve().parents[1] / "README.md").read_text(encoding="utf-8")
+    readme = (Path(__file__).resolve().parents[1] / "README.zh-CN.md").read_text(encoding="utf-8")
 
     for phrase in (
         "OpenAI 兼容接口",
@@ -55,7 +55,7 @@ def test_readme_documents_ai_enrichment_operation_and_recovery():
 
 
 def test_readme_documents_model_search_sampling_limits_and_trust():
-    readme = (Path(__file__).resolve().parents[1] / "README.md").read_text(encoding="utf-8")
+    readme = (Path(__file__).resolve().parents[1] / "README.zh-CN.md").read_text(encoding="utf-8")
 
     for phrase in (
         "按车型找车",
@@ -68,3 +68,13 @@ def test_readme_documents_model_search_sampling_limits_and_trust():
         "按车型找车任务、样本和报价保留 60 天",
     ):
         assert phrase in readme
+
+
+def test_readmes_offer_bidirectional_language_switching():
+    root = Path(__file__).resolve().parents[1]
+    english = (root / "README.md").read_text(encoding="utf-8")
+    chinese = (root / "README.zh-CN.md").read_text(encoding="utf-8")
+
+    assert "English | [简体中文](README.zh-CN.md)" in english
+    assert "[English](README.md) | 简体中文" in chinese
+    assert "Self-hosted rental car model tracker" in english
